@@ -59,15 +59,15 @@ def procWeeks():
         return jsonify({"code": 254, "bmsg": "400 Invalid Request@curWeek. Uploaded to Sentry.io"})
 
 
-@app.route('/api/v1/createSecC', methods=['GET'])
-def newSecCalendar():
-    gauth_acstoken = open(expanduser('~/.gauthacsYyg')).read()
-    checkSec = getSeccalLst(gauth_acstoken)
-    seccalid = createSecCal(gauth_acstoken, checkSec)['id']
-    with open('/tmp/seccalid.log', 'w') as seccalidrec:
-        seccalidrec.write(seccalid)
-        seccalidrec.close()
-    return jsonify({'code': 0, 'bmsg': '200 Create Secondary Calendar Processed.'})
+# @app.route('/api/v1/createSecC', methods=['GET'])
+# def newSecCalendar():
+#     gauth_acstoken = open(expanduser('~/.gauthacsYyg')).read()
+#     checkSec = getSeccalLst(gauth_acstoken)
+#     seccalid = createSecCal(gauth_acstoken, checkSec)['id']
+#     with open('/tmp/seccalid.log', 'w') as seccalidrec:
+#         seccalidrec.write(seccalid)
+#         seccalidrec.close()
+#     return jsonify({'code': 0, 'bmsg': '200 Create Secondary Calendar Processed.'})
 
 
 @app.route('/api/v1/courses', methods=['POST'])
@@ -78,7 +78,7 @@ def procCourses():
         current_week = int(open('/tmp/curweek.log', 'r').read())
         current_week_cls = echwekcurs['rows']
         clsnums = len(current_week_cls)
-        seccalid = open('/tmp/seccalid.log', 'r').read()
+        seccalid = 'primary'
         for i in range(0, clsnums):
             evnt = generate_event(current_week_cls[i], current_week)
             createCalEvent(gauth_acstoken, seccalid, evnt)
